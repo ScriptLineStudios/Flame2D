@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] args) throws IOException
 	{
 		Engine e = new Engine("test", 600, 600);
-		Texture t = new Texture("");
+		Texture t = new Texture("src/main/resources/cat.png");
 
 		float time = 0;
 		

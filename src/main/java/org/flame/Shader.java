@@ -37,4 +37,11 @@ public class Shader
         glUseProgram(this.shaderProgram);
         glUniform1f(variable, t);
     }
+
+    public void uploadTex(int index, String name)
+    {
+        int location = glGetUniformLocation(shaderProgram, name);
+        glUseProgram(shaderProgram);
+        glUniform1i(location, index);
+    }
 }
