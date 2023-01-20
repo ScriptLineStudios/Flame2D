@@ -69,22 +69,22 @@ public class Texture
 
     public void render()
     {
-        float[] vertices =
-        {
-                0.5f, 0.5f, 0.0f,
-                0.5f, -0.5f, 0.0f,
-                -0.5f, -0.5f, 0.0f
-        };
-
-
-
-        glBindVertexArray(this.vao);
-
-        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
-        vertexBuffer.put(vertices).flip();
-
-        glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
-        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
+//        float[] vertices =
+//        {
+//                0.5f, 0.5f, 0.0f,
+//                0.5f, -0.5f, 0.0f,
+//                -0.5f, -0.5f, 0.0f
+//        };
+//
+//
+//
+//        glBindVertexArray(this.vao);
+//
+//        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
+//        vertexBuffer.put(vertices).flip();
+//
+//        glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
+//        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
 
         glUseProgram(shadProg);
         glDrawArrays(GL_TRIANGLES, 0, 3);

@@ -20,7 +20,6 @@ public class Main {
 
 		while(!glfwWindowShouldClose(e.window))
 		{
-			glUseProgram(t.shadProg);
 			t.render();
 			e.update();
 		}
