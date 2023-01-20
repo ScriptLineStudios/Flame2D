@@ -30,4 +30,11 @@ public class Shader
     {
         return Files.readString(Path.of(filePath));
     }
+
+    public void uploadFloat(float t, String name)
+    {
+        int variable = glGetUniformLocation(this.shaderProgram, name);
+        glUseProgram(this.shaderProgram);
+        glUniform1f(variable, t);
+    }
 }
