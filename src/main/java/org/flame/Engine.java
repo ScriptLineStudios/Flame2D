@@ -12,39 +12,35 @@ public class Engine
 
     Engine(String name, int width, int height)
     {
-        if(!glfwInit())
-            throw new IllegalStateException("Unable to initialize GLFW");
-
-        glfwDefaultWindowHints();
+        glfwInit();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        this.window = glfwCreateWindow(width, height, name, NULL, NULL);
+        // Create the window
+        this.window = glfwCreateWindow(800, 800, "Game", NULL, NULL);
 
-        if (this.window == NULL )
-            throw new RuntimeException("Failed to create the GLFW window");
-
-        glfwMakeContextCurrent(this.window);
-        GL.createCapabilities();
-
+        glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
-
-        glfwShowWindow(this.window);
-
+        glfwShowWindow(window);
+        GL.createCapabilities();
     }
 
     void update()
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
         glfwSwapBuffers(this.window);
         glfwPollEvents();
     }
-
+    
     void clear(float r, float g, float b, float a)
     {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glClearColor(r, g, b, a);
     }
 
-
+    public boolean windowOpen() {
+        return !glfwWindowShouldClose(this.window);
+    }
 }
