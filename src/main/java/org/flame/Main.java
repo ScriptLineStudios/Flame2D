@@ -10,7 +10,7 @@ public class Main {
 	{
 		Engine e = new Engine("test", 303, 300);
 
-		e.clear(0.0f, 1.0f, 0.0f, 1.0f);
+		e.clear(1.0f, 1.0f, 0.0f, 1.0f);
 
 		while(!glfwWindowShouldClose(e.window))
 		{
