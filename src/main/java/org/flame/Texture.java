@@ -60,7 +60,8 @@ public class Texture
 
         glUseProgram(this.shaderProgram);
         glBindVertexArray(this.vao);
-        glDrawArrays(GL_TRIANGLES, 0, 6);\
-        
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+
     }
 }
