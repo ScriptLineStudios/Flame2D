@@ -1,5 +1,7 @@
 package org.flame;
 
+import java.io.IOException;
+
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 
@@ -7,7 +9,7 @@ import static org.lwjgl.opengl.GL20.glUseProgram;
 public class Main {
 
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws IOException
 	{
 		Engine e = new Engine("test", 303, 300);
 		Texture t = new Texture("");

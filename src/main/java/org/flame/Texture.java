@@ -17,7 +17,7 @@ public class Texture
 
 
 
-    Texture(String path)
+    Texture(String path) throws IOException
     {
         float[] vertices =
         {
@@ -28,11 +28,11 @@ public class Texture
 
 
         int vertShad = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertShad, "src/main/resources/vertex.glsl");
+        glShaderSource(vertShad, loadAsString("src/main/resources/vertex.glsl"));
         glCompileShader(vertShad);
 
         int fragShad = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragShad, "src/main/resources/fragment.glsl");
+        glShaderSource(fragShad, loadAsString("src/main/resources/fragment.glsl"));
         glCompileShader(fragShad);
 
         this.shadProg = glCreateProgram();
