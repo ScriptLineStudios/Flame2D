@@ -12,17 +12,20 @@ import static org.lwjgl.opengl.GL30.*;
 
 public class Texture
 {
+    int vao, vbo;
+    int shadProg;
+
+
+
     Texture(String path)
     {
         float[] vertices =
         {
             0.5f, 0.5f, 0.0f,
             0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f
+            -0.5f, -0.5f, 0.0f
         };
 
-        int shadProg;
 
         int vertShad = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertShad, "src/main/resources/vertex.glsl");
@@ -32,21 +35,20 @@ public class Texture
         glShaderSource(fragShad, "src/main/resources/fragment.glsl");
         glCompileShader(fragShad);
 
-        shadProg = glCreateProgram();
-        glAttachShader(shadProg, vertShad);
-        glAttachShader(shadProg, fragShad);
-        glLinkProgram(shadProg);
+        this.shadProg = glCreateProgram();
+        glAttachShader(this.shadProg, vertShad);
+        glAttachShader(this.shadProg, fragShad);
+        glLinkProgram(this.shadProg);
 
-        int vao, vbo;
 
-        vao = glGenVertexArrays();
-        glBindVertexArray(vao);
+        this.vao = glGenVertexArrays();
+        glBindVertexArray(this.vao);
 
         FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
         vertexBuffer.put(vertices).flip();
 
-        vbo = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        this.vbo = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
         glBufferData(GL_ARRAY_BUFFER,vertexBuffer, GL_STATIC_DRAW);
 
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 3, 3 * Float.BYTES);
@@ -65,8 +67,26 @@ public class Texture
     }
 
 
-    public static void render()
+    public void render()
     {
-        glDrawArrays(GL_TRIANGLES, 0, 4);
+        float[] vertices =
+        {
+                0.5f, 0.5f, 0.0f,
+                0.5f, -0.5f, 0.0f,
+                -0.5f, -0.5f, 0.0f
+        };
+
+
+
+        glBindVertexArray(this.vao);
+
+        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
+        vertexBuffer.put(vertices).flip();
+
+        glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
+        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
+
+        glUseProgram(shadProg);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
     }
 }

@@ -25,6 +25,8 @@ public class Engine
             throw new RuntimeException("Failed to create the GLFW window");
 
         glfwMakeContextCurrent(this.window);
+        GL.createCapabilities();
+
         glfwSwapInterval(1);
 
         glfwShowWindow(this.window);
@@ -41,7 +43,6 @@ public class Engine
 
     void clear(float r, float g, float b, float a)
     {
-        GL.createCapabilities();
         glClearColor(r, g, b, a);
     }
 
