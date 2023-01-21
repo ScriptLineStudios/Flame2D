@@ -13,7 +13,7 @@ public class Main {
 		while(e.windowOpen())
 		{
 			e.clear(0.0f, 0.0f, 0.0f, 1.0f);
-			t.render();
+			t.render(400.0f, 0.0f);
 			e.update();
 		}
 	}
