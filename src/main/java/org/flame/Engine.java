@@ -10,7 +10,7 @@ public class Engine
 {
     public long window;
 
-    Engine(String name, int width, int height)
+    public Engine(String name, int width, int height)
     {
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

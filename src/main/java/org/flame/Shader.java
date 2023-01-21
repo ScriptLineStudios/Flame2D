@@ -15,7 +15,7 @@ public class Shader
 {
     int shaderProgram, vao, vbo;
     Renderer renderer;
-    Shader(String vPath, String fPath) throws IOException
+    public Shader(String vPath, String fPath) throws IOException
     {
         int vertexShader = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertexShader, loadAsString(vPath));
@@ -33,7 +33,7 @@ public class Shader
         this.renderer = new Renderer();
     }
 
-    Shader() throws IOException
+    public Shader() throws IOException
     {
         String vertex = "#version 330 core\n" +
                 "layout (location=0) in vec3 aPos;\n" +

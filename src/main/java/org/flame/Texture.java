@@ -22,7 +22,7 @@ public class Texture
     IntBuffer width, height, channels;
 
     Renderer renderer;
-    Texture(String path) throws IOException
+    public Texture(String path) throws IOException
     {
         this.s = new Shader();
         this.initTexture(path);

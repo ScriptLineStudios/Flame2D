@@ -14,7 +14,7 @@ import static org.lwjgl.opengl.GL30.*;
 
 public class Renderer {
     int vao, vbo;
-    Renderer() {
+    public Renderer() {
         this.vao = glGenVertexArrays();
         this.vbo = glGenBuffers();
     }
