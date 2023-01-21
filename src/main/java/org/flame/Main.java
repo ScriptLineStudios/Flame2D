@@ -19,7 +19,7 @@ public class Main {
 			if (e.getKeyDown(GLFW_KEY_A))
 			{
 				x += 4;
-			}
+			} else if(e.getKeyDown(GLFW_KEY_D)) x -= 4;
 			t.render(x, 0.0f, r);
 			e.update();
 		}
