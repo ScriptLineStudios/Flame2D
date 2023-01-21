@@ -23,8 +23,33 @@ public class Texture
         this.vao = glGenVertexArrays();
         this.vbo = glGenBuffers();
 
+        float vertices[] = {
+                0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
+                1.0f, 1.0f, 0.0f,  1.0f, 0.0f,
+                0.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+                0.0f, 0.0f, 0.0f,  0.0f, 1.0f,
+                1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
+                1.0f, 1.0f, 0.0f,  1.0f, 0.0f
+        };
+
+        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
+        vertexBuffer.put(vertices).flip();
+
+        glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
+        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
+
+        glBindVertexArray(this.vao);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 5 * Float.BYTES, 0);
+        glEnableVertexAttribArray(0);
+
+        glVertexAttribPointer(1, 2, GL_FLOAT, false, 5 * Float.BYTES, 3 * Float.BYTES);
+        glEnableVertexAttribArray(1);
+
+        glBindVertexArray(this.vao);
+
 
         this.texture = glGenTextures();
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, this.texture);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -37,36 +62,18 @@ public class Texture
         IntBuffer channels = BufferUtils.createIntBuffer(1);
         ByteBuffer image = stbi_load(path, width, height, channels, 0);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(0), height.get(0), 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-        
+
+
+        glBindTexture(GL_TEXTURE_3D, this.texture);
         this.s.uploadTex(0, "img");
     }
 
 
     public void render() throws IOException
     {
-        float vertices[] = {
-            0.0f, 1.0f, 0.0f,  0.0f, 0.0f,
-            1.0f, 1.0f, 0.0f,  1.0f, 0.0f,
-            0.0f, 0.0f, 0.0f,  0.0f, 1.0f,
-            0.0f, 0.0f, 0.0f,  0.0f, 1.0f,
-            1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-            1.0f, 1.0f, 0.0f,  1.0f, 0.0f
-        };
 
-        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
-        vertexBuffer.put(vertices).flip();
-
-        glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
-        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
-
-        glBindVertexArray(this.vao);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 5 * Float.BYTES, 0);
-        glEnableVertexAttribArray(0);
-        
-        glVertexAttribPointer(1, 2, GL_FLOAT, false, 5 * Float.BYTES, 3 * Float.BYTES);
-        glEnableVertexAttribArray(1);
         glUseProgram(s.shaderProgram);
-        glBindTexture(GL_TEXTURE_2D, 0);
+        glBindTexture(GL_TEXTURE_2D, this.texture);
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 }
