@@ -1,14 +1,14 @@
 #version 330 core
 in vec3 pos;
-in vec2 tex;
+in vec2 texCoord;
 
 
 uniform float time = 0;
-uniform sampler2D img;
+uniform sampler2D tex0;
 
 
 void main()
 {
-    gl_FragColor = texture(img, tex);
+    gl_FragColor = texture(tex0, tex);
 
 }

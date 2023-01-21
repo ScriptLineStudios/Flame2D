@@ -42,7 +42,7 @@ public class Texture
                 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 
         glActiveTexture(GL_TEXTURE0);
-        s.uploadTex(0, "img");
+        s.uploadTex(0, "tex0");
 
     }
     
