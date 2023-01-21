@@ -40,6 +40,11 @@ public class Engine
         glClearColor(r, g, b, a);
     }
 
+    public boolean getKeyDown(int keyCode)
+    {
+        return glfwGetKey(this.window, keyCode) == GLFW_PRESS;
+    }
+
     public boolean windowOpen() {
         return !glfwWindowShouldClose(this.window);
     }

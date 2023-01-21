@@ -1,5 +1,7 @@
 package org.flame;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 
 import static org.lwjgl.stb.STBImage.*;
@@ -7,6 +9,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -14,15 +17,26 @@ import static org.lwjgl.opengl.GL30.*;
 
 public class Texture
 {
-    int vao, vbo, ebo, texture;
     Shader s;
+    int texture;
     IntBuffer width, height, channels;
+
+    Renderer renderer;
     Texture(String path) throws IOException
     {
-        s = new Shader("src/main/resources/vertex.glsl", "src/main/resources/fragment.glsl");
-        this.vao = glGenVertexArrays();
-        this.vbo = glGenBuffers();
+        this.s = new Shader();
+        this.initTexture(path);
+    }
 
+    Texture(String path, Shader shader) throws IOException
+    {
+        this.s = shader;
+        this.initTexture(path);
+    }
+
+    private void initTexture(String path)
+    {
+        this.renderer = new Renderer();
 
         this.texture = glGenTextures();
         glActiveTexture(GL_TEXTURE0);
@@ -39,53 +53,41 @@ public class Texture
         ByteBuffer image = stbi_load(path, width, height, channels, 0);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width.get(0), height.get(0), 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 
-
         glBindTexture(GL_TEXTURE_3D, this.texture);
         this.s.uploadTex(0, "img");
     }
 
-    public void render(float _x, float _y) throws IOException {
-        this.backEndRender(_x, _y, this.width.get(0), this.height.get(0));
-    }
-
-    public void render(float _x, float _y, float _w, float _h) throws IOException {
-        this.backEndRender(_x, _y, _w, _h);
-    }
-
-    private void backEndRender(float _x, float _y, float _w, float _h) throws IOException
+    private void rotate(float _r)
     {
-        float x = _x / 600;
-        float y = _y / 600;
+        float r = _r * ((float) Math.PI / 180);
 
-        float w = _w / this.width.get(0);
-        float h = _h / this.height.get(0);
+        FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(16);
+        try{
+            FloatBuffer matrixBuffer = new Matrix4f().rotate(r, 0.0f, 0.0f, 1.0f).get(floatBuffer);
+            s.uploadMatrix("transform", matrixBuffer);
+        } catch(Exception e)
+        {}
+    }
 
-        float vertices[] = {
-                x,   y+h,   0.0f,  0.0f, 0.0f,
-                x+w, y+h,   0.0f,  1.0f, 0.0f,
-                x,   y,     0.0f,  0.0f, 1.0f,
-                x,   y,     0.0f,  0.0f, 1.0f,
-                x+w, y,     0.0f,  1.0f, 1.0f,
-                x+w, y+h,   0.0f,  1.0f, 0.0f
-        };
+    public void render(float _x, float _y, float _r) throws IOException
+    {
+        this.rotate(_r);
+        this.renderer.render(_x, _y, width.get(0), height.get(0), s.shaderProgram, texture, this.width.get(0), this.height.get(0));
+    }
 
-        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertices.length);
-        vertexBuffer.put(vertices).flip();
+    public void render(float _x, float _y, float _w, float _h, float _r) throws IOException
+    {
+        this.rotate(_r);
+        this.renderer.render(_x, _y, _w, _h, s.shaderProgram, texture, this.width.get(0), this.height.get(0));
+    }
 
-        glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
-        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
+    public void render(float _x, float _y) throws IOException
+    {
+        this.renderer.render(_x, _y, width.get(0), height.get(0), s.shaderProgram, texture, this.width.get(0), this.height.get(0));
+    }
 
-        glBindVertexArray(this.vao);
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 5 * Float.BYTES, 0);
-        glEnableVertexAttribArray(0);
-
-        glVertexAttribPointer(1, 2, GL_FLOAT, false, 5 * Float.BYTES, 3 * Float.BYTES);
-        glEnableVertexAttribArray(1);
-
-        glBindVertexArray(this.vao);
-    
-        glUseProgram(s.shaderProgram);
-        glBindTexture(GL_TEXTURE_2D, this.texture);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+    public void render(float _x, float _y, float _w, float _h) throws IOException
+    {
+        this.renderer.render(_x, _y, _w, _h, s.shaderProgram, texture, this.width.get(0), this.height.get(0));
     }
 }
