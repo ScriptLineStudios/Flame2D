@@ -18,7 +18,7 @@ public class Main {
 			e.clear(0.0f, 0.0f, 0.0f, 1.0f);
 			if (e.getKeyDown(GLFW_KEY_A))
 			{
-				x += 1;
+				x += 4;
 			}
 			t.render(x, 0.0f, r);
 			e.update();

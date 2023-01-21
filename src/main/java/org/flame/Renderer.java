@@ -55,6 +55,10 @@ public class Renderer {
         glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 
+    public float normx(float _x, int targetWidth) {
+        return 0;
+    }
+
     void render(float _x, float _y, float _w, float _h,
                 int shaderProgram, int texture, int targetWidth, int targetHeight) {
         float x = _x / 600;

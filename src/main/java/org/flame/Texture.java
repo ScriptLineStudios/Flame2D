@@ -57,13 +57,15 @@ public class Texture
         this.s.uploadTex(0, "img");
     }
 
-    private void rotate(float _r)
+    private void rotate(float _x, float _y, float _r)
     {
         float r = _r * ((float) Math.PI / 180);
 
+
+        Vector3f center = new Vector3f(_x / 600, _y / 600, 0.0f);
         FloatBuffer floatBuffer = BufferUtils.createFloatBuffer(16);
         try{
-            FloatBuffer matrixBuffer = new Matrix4f().rotate(r, 0.0f, 0.0f, 1.0f).get(floatBuffer);
+            FloatBuffer matrixBuffer = new Matrix4f().translate(center).rotate(r, 0.0f, 0.0f, 1.0f).translate(center.negate()).get(floatBuffer);
             s.uploadMatrix("transform", matrixBuffer);
         } catch(Exception e)
         {}
@@ -71,13 +73,13 @@ public class Texture
 
     public void render(float _x, float _y, float _r) throws IOException
     {
-        this.rotate(_r);
+        this.rotate(_x, _y, _r);
         this.renderer.render(_x, _y, width.get(0), height.get(0), s.shaderProgram, texture, this.width.get(0), this.height.get(0));
     }
 
     public void render(float _x, float _y, float _w, float _h, float _r) throws IOException
     {
-        this.rotate(_r);
+        this.rotate(_x, _y, _r);
         this.renderer.render(_x, _y, _w, _h, s.shaderProgram, texture, this.width.get(0), this.height.get(0));
     }
 
