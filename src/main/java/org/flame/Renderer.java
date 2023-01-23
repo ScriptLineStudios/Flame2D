@@ -19,7 +19,7 @@ public class Renderer {
         this.vbo = glGenBuffers();
     }
 
-    void render(float _x, float _y, float _w, float _h,
+    public void render(float _x, float _y, float _w, float _h,
                 int shaderProgram, int targetWidth, int targetHeight) {
         float x = _x / 600;
         float y = _y / 600;
@@ -59,7 +59,7 @@ public class Renderer {
         return 0;
     }
 
-    void render(float _x, float _y, float _w, float _h,
+    public void render(float _x, float _y, float _w, float _h,
                 int shaderProgram, int texture, int targetWidth, int targetHeight) {
         float x = _x / 600;
         float y = _y / 600;

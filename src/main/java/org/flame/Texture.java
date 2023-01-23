@@ -28,7 +28,7 @@ public class Texture
         this.initTexture(path);
     }
 
-    Texture(String path, Shader shader) throws IOException
+    public Texture(String path, Shader shader) throws IOException
     {
         this.s = shader;
         this.initTexture(path);
